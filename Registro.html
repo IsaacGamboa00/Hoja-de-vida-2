@@ -1,0 +1,173 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Registro Hoja</title>
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+
+    <body>
+        <header><h1>Registro Hoja de Vida</h1></header>
+
+        <article id="wrapper">
+            <form>
+                <p>
+                    <label for="nombre">Nombre</label>
+                    <br>
+                    <input type="text" id="nombre">
+                </p>
+                <p>
+                    <label for="apellido">Apellido</label>
+                    <br>
+                    <input type="text" id="apellido">
+                </p>
+                <p>
+                    <label for="fechaNacimiento">Fecha de nacimiento</label>
+                    <br>
+                    <input type="date" id="nacimiento">
+                </p>
+                <p>
+                    <label for="e-mail">Correo electrónico</label>
+                    <br>
+                    <input type="text" id="email">
+                </p>
+                <p>
+                    <label for="cedula">Cédula</label>
+                    <br>
+                    <input type="text" id="cedula">
+                </p>
+                <p>
+                    <label for="telefono">Teléfono</label>
+                    <br>
+                    <input type="text" id="telefono">
+                </p>
+                <p>
+                    <label for="estadoCivil">Estado Civil</label>
+                    <br>
+                    <input type="text" id="estadoCivil">
+                </p>
+                <p>
+                    <input type="button" id="submit_btn" value="Guardar">
+                </p>
+            </form>
+            <table id="data_table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Fecha de Nacimiento</th>
+                        <th>e-mail</th>
+                        <th>Cédula</th>
+                        <th>Teléfono</th>
+                        <th>Estado Civil</th>
+                        <th>Edad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </article>
+    </body>
+    <script>
+        var campo_nombre;
+        var campo_apellido;
+        var campo_nacimiento;
+        var campo_email;
+        var campo_cedula;
+        var campo_telefono;
+        var campo_estadoCivil;
+        llenar();
+        function valid_data() {
+            if (this.campo_nombre.value == 0) {
+                alert('complete el campo NOMBRE');
+                return false;
+            }
+            if (this.campo_apellido.value == 0) {
+                alert('complete el campo APELLIDO');
+                return false;
+            }
+            if (this.campo_nacimiento.value == 0) {
+                alert('complete el campo FECHA DE NACIMIENTO');
+                return false;
+            }
+            if (this.campo_email.value == 0) {
+                alert('complete el campo E-MAIL');
+                return false;
+            }
+
+            if (this.campo_estadoCivil.value == 0) {
+                alert('complete el campo ESTADO CIVIL');
+                return false;
+            }
+            if (this.campo_cedula.value == 0) {
+                alter('complete el campo CEDULA');
+                return false;
+            }
+            if (this.campo_telefono.value == 0) {
+                alter('complete el campo TELEFONO');
+                return false;
+            }
+
+            return true;
+        }
+
+        function start_process() {
+            campo_nombre = document.getElementById('nombre');
+            campo_apellido = document.getElementById('apellido');
+            campo_nacimiento = document.getElementById('nacimiento');
+            campo_email = document.getElementById('email');
+            campo_cedula = document.getElementById('cedula');
+            campo_telefono = document.getElementById("telefono");
+            campo_estadoCivil = document.getElementById("estadoCivil");
+
+            if (this.valid_data()) {
+
+                localStorage.setItem("nombre",campo_nombre.value);
+                localStorage.setItem("apellido",campo_apellido.value);
+                localStorage.setItem("nacimiento",campo_nacimiento.value);
+                localStorage.setItem("email",campo_email.value);
+                localStorage.setItem("cedula",campo_cedula.value);
+                localStorage.setItem("telefono",campo_telefono .value);
+                localStorage.setItem("estadoCivil",campo_estadoCivil.value);
+                llenar();
+
+            }
+        }
+
+        function llenar() {
+
+                var nombre = localStorage.getItem("nombre");
+                var apellido = localStorage.getItem("apellido");
+                var nacimiento = localStorage.getItem("nacimiento");
+                var email = localStorage.getItem("email");
+                var cedula = localStorage.getItem("cedula");
+                var telefono = localStorage.getItem("telefono");
+                var estadoCivil = localStorage.getItem("estadoCivil");
+                document.getElementById("data_table").insertRow(-1).innerHTML =
+                        '<td>' + nombre+ '</td>' +
+                        '<td>' + apellido+ '</td>' +
+                        '<td>' + nacimiento+ '</td>' +
+                        '<td>' + email + '</td>' +
+                        '<td>' + cedula+ '</td>' +
+                        '<td>' +telefono+ '</td>' +
+                        '<td>' + estadoCivil + '</td>' +
+                        '<td>' + calc_age(nacimiento) + '</td>';
+
+        }
+        function calc_age(dateString)
+        {
+            var hoy = new Date();
+            var nacimiento = new Date(dateString);
+            var edad = hoy.getFullYear() - nacimiento.getFullYear();
+            var m = hoy.getMonth() - nacimiento.getMonth();
+            if (m < 0 || (m === 0 && hoy.getDate() < nacimiento.getDate())) {
+                edad--;
+            }
+            return edad;
+        }
+
+        document.getElementById('submit_btn').onclick = function () {
+            start_process();
+        };
+    </script>
+</html>
